@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root{
+    --primary-color: #F3A69F;
+}
+
+input[type='text'],input[type='password'],input[type='email']{
+    @apply w-full border my-2 p-2 px-3 rounded-lg;
+}
+
+button{
+    @apply bg-gray-300;
+}
+
+button.primary{
+    background-color: #F3A69F;
+    @apply bg-primary-color p-2 w-full text-center rounded-lg;
+}
+
+p, h1{
+    @apply font-Inter;
+}
