@@ -3,6 +3,9 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../components/UserContext";
 import PlacesPage from "./PlacesPage";
 import axios from "axios";
+import { CgProfile } from "react-icons/cg";
+import { IoMdBook } from "react-icons/io";
+import { RiHomeHeartLine } from "react-icons/ri";
 
 
 export default function AccountPage(){
@@ -32,9 +35,11 @@ export default function AccountPage(){
     }
 
     function linkClasses(type:string){
-        let classes = 'py-2 px-6';
+        let classes = 'inline-flex py-2 px-6 gap-1 rounded-full';
         if(type === subpage){
-            classes += ' bg-primary-color text-white rounded-full';
+            classes += ' bg-primary-color text-white';
+        }else{
+            classes += ' bg-gray-200'
         }
         return classes;
     }
@@ -47,9 +52,15 @@ export default function AccountPage(){
     return (
         <div>
             <nav className="w-full flex justify-center mt-8 gap-2 mb-8">
-                <Link to={'/account'} className={linkClasses('profile')}>My Profile</Link>
-                <Link to={'/account/bookings'} className={linkClasses('bookings')}>My Bookings</Link>
-                <Link to={'/account/places'} className={linkClasses('places')}>My Accommodations</Link>
+                <Link to={'/account'} className={linkClasses('profile')}>
+                    <CgProfile className=" my-auto"/> My Profile
+                </Link>
+                <Link to={'/account/bookings'} className={linkClasses('bookings')}>
+                    <IoMdBook className=" my-auto"/> My Bookings
+                </Link>
+                <Link to={'/account/places'} className={linkClasses('places')}>
+                    <RiHomeHeartLine className=" my-auto"/> My Accommodations
+                </Link>
             </nav>
 
             {subpage === 'profile' && (
