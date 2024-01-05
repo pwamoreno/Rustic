@@ -4,7 +4,8 @@ const cors = require('cors');
 const mongoose =  require('mongoose');
 const jwt = require('json-web-token');
 const User = require('./models/User');
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
+const download = require('image-downloader');
 
 
 app.use(express.json());
@@ -15,6 +16,7 @@ app.use(
     })
 );
 app.use(cookieParser());
+app.use('/uploads', express.static(__dirname + '/uploads'))
 
 mongoose.connect('mongodb://localhost/Rustic');
 const db = mongoose.connection;
@@ -75,5 +77,15 @@ app.get('/profile', (req, res) => {
 app.post('/logout', (req, res) => {
     res.cookie('token', '').json(true)
 })
+
+app.post('/upload-by-link', async (req, res) => {
+    const {link} = req.body;
+    const newName = 'photo' + Date.now() + '.jpg';
+    await download.image({
+        url: link,
+        dest: __dirname + '/uploads/' + newName,
+    })
+    res.json(newName);
+});
 
 app.listen(4000);
