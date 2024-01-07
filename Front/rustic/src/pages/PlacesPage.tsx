@@ -30,6 +30,22 @@ export default function PlacesPage(){
         setPhotoLink('')
     }
 
+    function uploadPhoto(e:any){
+        const files = e.target.files
+        const data = new FormData()
+        for(let i = 0; i < files.length; i++){
+            data.append('photos', files[i])
+        }
+        axios.post('/upload', data,{
+            headers: {"Content-Type":"multipart/form-data"}
+        }).then(response => {
+            const {data:filename} = response
+            setAddedPhotos(prev => {
+                return [...prev, filename]
+            })
+        })
+    }
+
     return(
         <div>
             {action !== 'new' && (
@@ -71,9 +87,10 @@ export default function PlacesPage(){
                         </div>
 
                         <div className="mt-2 gap-2 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-                            <button className="flex items-center gap-1 justify-center border bg-transparent rounded-2xl p-4">
+                            <label className="flex cursor-pointer items-center gap-1 justify-center border bg-transparent rounded-2xl p-4">
+                                <input type="file" className="hidden" onChange={uploadPhoto} />
                                 <FaUpload className="my-auto" />Upload
-                            </button>
+                            </label>
                             {addedPhotos.length > 0 && addedPhotos.map(link => (
                                 <div key={link}>
                                     <img src={'http://localhost:4000/uploads/' + link } alt="" className="rounded-2xl max-w-12"/>

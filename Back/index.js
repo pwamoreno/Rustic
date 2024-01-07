@@ -6,6 +6,7 @@ const jwt = require('json-web-token');
 const User = require('./models/User');
 const cookieParser = require('cookie-parser');
 const download = require('image-downloader');
+const multer = require('multer')
 
 
 app.use(express.json());
@@ -87,5 +88,16 @@ app.post('/upload-by-link', async (req, res) => {
     })
     res.json(newName);
 });
+
+const upload = multer({dest:'uploads/'})
+app.post('/upload', upload.array('photos', 100), (req, res) => {
+    res.json(req.files)
+})
+
+
+
+
+
+
 
 app.listen(4000);
